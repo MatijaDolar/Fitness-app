@@ -1,293 +1,243 @@
-# Fitness-app
+# Fit4Liffe
 <!DOCTYPE html>
 <html lang="hr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FitZona Pro</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+
 body{
-background:linear-gradient(135deg,#0f172a,#111827);
+background:#0f172a;
 color:white;
-overflow-x:hidden;
-}
-.hidden{display:none}
-
-header{
-position:fixed;
-width:100%;
-background:rgba(15,23,42,.8);
-backdrop-filter:blur(15px);
-padding:20px 40px;
 display:flex;
-justify-content:space-between;
-align-items:center;
-border-bottom:1px solid #1e293b;
-z-index:1000;
-}
-
-header h1{
-color:#22c55e;
-font-weight:800;
-}
-
-nav a{
-margin-left:20px;
-color:white;
-text-decoration:none;
-cursor:pointer;
-transition:.3s;
-}
-
-nav a:hover{color:#22c55e}
-
-section{
-padding:120px 40px;
 min-height:100vh;
 }
 
-.hero{
+/* SIDEBAR */
+.sidebar{
+width:240px;
+background:#111827;
+padding:30px 20px;
 display:flex;
 flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center;
-background:linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),
-url('https://images.unsplash.com/photo-1599058917765-a780eda07a3e?auto=format&fit=crop&w=1600&q=80')
-center/cover;
+border-right:1px solid #1f2937;
 }
 
-.hero h2{
-font-size:50px;
-margin-bottom:20px;
-font-weight:800;
+.sidebar h1{
+color:#22c55e;
+margin-bottom:40px;
+font-size:22px;
 }
 
-.btn{
-background:#22c55e;
-padding:12px 25px;
+.sidebar button{
+background:none;
 border:none;
-border-radius:30px;
+color:#cbd5e1;
+text-align:left;
+padding:12px 10px;
+margin-bottom:10px;
 cursor:pointer;
-font-weight:600;
-margin-top:15px;
-transition:.3s;
+border-radius:8px;
+transition:.2s;
 }
 
-.btn:hover{
-background:#16a34a;
-transform:scale(1.05);
+.sidebar button:hover{
+background:#1f2937;
+color:white;
 }
 
-.cards{
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
-gap:25px;
+/* MAIN */
+.main{
+flex:1;
+padding:40px;
 }
+
+.hidden{display:none}
 
 .card{
-background:rgba(30,41,59,.7);
+background:#1e293b;
 padding:25px;
-border-radius:20px;
-width:300px;
-backdrop-filter:blur(15px);
-transition:.3s;
-}
-
-.card:hover{
-transform:translateY(-5px);
-box-shadow:0 0 25px rgba(34,197,94,.3);
+border-radius:16px;
+margin-bottom:25px;
 }
 
 input,select{
+width:100%;
 padding:10px;
 margin:8px 0;
-width:100%;
 border-radius:8px;
 border:none;
 }
 
-canvas{margin-top:30px}
-
-footer{
-text-align:center;
-padding:30px;
-background:#0f172a;
-border-top:1px solid #1e293b;
+.btn{
+background:#22c55e;
+border:none;
+padding:10px 20px;
+border-radius:8px;
+cursor:pointer;
+margin-top:10px;
+font-weight:600;
 }
 
+.btn:hover{background:#16a34a}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:20px;
+}
+
+canvas{margin-top:20px}
+
 @media(max-width:768px){
-.hero h2{font-size:32px}
-.cards{flex-direction:column;align-items:center}
+.sidebar{display:none}
 }
 </style>
 </head>
 
 <body>
 
-<header>
+<div class="sidebar">
 <h1>FitZona Pro</h1>
-<nav>
-<a onclick="showSection('home')">Početna</a>
-<a onclick="showSection('workouts')">Vježbe</a>
-<a onclick="showSection('nutrition')">Prehrana</a>
-<a onclick="showSection('progress')">Napredak</a>
-<a onclick="showSection('dashboard')">Dashboard</a>
-</nav>
-</header>
-
-<!-- HOME -->
-<section id="home" class="hero">
-<h2>Postani Najbolja Verzija Sebe</h2>
-<p>Trening, prehrana, AI plan i praćenje napretka.</p>
-<button class="btn" onclick="showSection('dashboard')">Kreni Sada</button>
-</section>
-
-<!-- WORKOUTS -->
-<section id="workouts" class="hidden">
-<h2>Vježbe po Mišićnim Skupinama</h2>
-<div class="cards">
-<div class="card"><h3>Prsa</h3>Bench press<br>Incline DB press<br>Chest fly<br>Sklekovi</div>
-<div class="card"><h3>Leđa</h3>Deadlift<br>Pull-ups<br>Barbell row<br>Lat pulldown</div>
-<div class="card"><h3>Noge</h3>Čučanj<br>Leg press<br>Iskoraci<br>RDL</div>
-<div class="card"><h3>Ramena</h3>Shoulder press<br>Lateral raise<br>Rear delt fly</div>
-<div class="card"><h3>Ruke</h3>Biceps curl<br>Hammer curl<br>Dips<br>Pushdown</div>
-<div class="card"><h3>Core</h3>Plank<br>Leg raises<br>Russian twist<br>Ab wheel</div>
-</div>
-</section>
-
-<!-- NUTRITION -->
-<section id="nutrition" class="hidden">
-<h2>Prehrana i Kalorije</h2>
-<div class="cards">
-
-<div class="card">
-<h3>BMR Kalkulator</h3>
-<input type="number" id="weightCalc" placeholder="Težina (kg)">
-<input type="number" id="heightCalc" placeholder="Visina (cm)">
-<input type="number" id="ageCalc" placeholder="Godine">
-<select id="goal">
-<option value="maintain">Održavanje</option>
-<option value="bulk">Masa</option>
-<option value="cut">Definicija</option>
-</select>
-<button class="btn" onclick="calculateCalories()">Izračunaj</button>
-<p id="calorieResult"></p>
+<button onclick="show('dashboard')">Dashboard</button>
+<button onclick="show('workouts')">Vježbe</button>
+<button onclick="show('nutrition')">Prehrana</button>
+<button onclick="show('progress')">Napredak</button>
+<button onclick="show('profile')">Profil</button>
 </div>
 
-<div class="card">
-<h3>Primjer Plana Prehrane</h3>
-Doručak: Zobene + whey<br>
-Ručak: Piletina + riža<br>
-Večera: Losos + povrće<br>
-Snack: Orašasti plodovi
-</div>
-
-</div>
-</section>
-
-<!-- PROGRESS -->
-<section id="progress" class="hidden">
-<h2>Praćenje Težine</h2>
-<input type="number" id="weightInput" placeholder="Unesi težinu">
-<button class="btn" onclick="addWeight()">Spremi</button>
-<canvas id="weightChart"></canvas>
-</section>
+<div class="main">
 
 <!-- DASHBOARD -->
-<section id="dashboard" class="hidden">
+<div id="dashboard">
 <h2>Dashboard</h2>
-<div class="cards">
+<div class="grid">
 
 <div class="card">
 <h3>AI Plan Treninga</h3>
-<select id="aiGoal">
+<select id="goal">
 <option value="masa">Masa</option>
 <option value="definicija">Definicija</option>
 <option value="snaga">Snaga</option>
 </select>
 <button class="btn" onclick="generatePlan()">Generiraj</button>
-<p id="aiPlan"></p>
+<p id="planOutput"></p>
 </div>
 
 <div class="card">
-<h3>Korisnik (Opcionalno)</h3>
-<input type="text" id="name" placeholder="Ime">
-<input type="email" id="email" placeholder="Email">
-<button class="btn" onclick="saveUser()">Spremi</button>
-<p id="userStatus"></p>
+<h3>Brzi Kalorijski Kalkulator</h3>
+<input type="number" id="weight" placeholder="Težina (kg)">
+<input type="number" id="height" placeholder="Visina (cm)">
+<input type="number" id="age" placeholder="Godine">
+<select id="calGoal">
+<option value="maintain">Održavanje</option>
+<option value="bulk">Masa (+300)</option>
+<option value="cut">Definicija (-300)</option>
+</select>
+<button class="btn" onclick="calculate()">Izračunaj</button>
+<p id="calResult"></p>
 </div>
 
 </div>
-</section>
+</div>
 
-<footer>
-© 2026 FitZona Pro
-</footer>
+<!-- WORKOUTS -->
+<div id="workouts" class="hidden">
+<h2>Baza Vježbi</h2>
+<div class="grid">
+
+<div class="card"><h3>Prsa</h3>Bench press<br>Incline press<br>Chest fly<br>Push-ups</div>
+<div class="card"><h3>Leđa</h3>Deadlift<br>Pull-ups<br>Barbell row<br>Lat pulldown</div>
+<div class="card"><h3>Noge</h3>Squat<br>Leg press<br>Iskoraci<br>RDL</div>
+<div class="card"><h3>Ramena</h3>Shoulder press<br>Lateral raise<br>Rear delt fly</div>
+<div class="card"><h3>Ruke</h3>Biceps curl<br>Hammer curl<br>Dips<br>Pushdown</div>
+<div class="card"><h3>Core</h3>Plank<br>Leg raises<br>Russian twist<br>Ab wheel</div>
+
+</div>
+</div>
+
+<!-- NUTRITION -->
+<div id="nutrition" class="hidden">
+<h2>Praćenje Kalorija</h2>
+
+<div class="card">
+<input type="number" id="foodCalories" placeholder="Unesi kalorije obroka">
+<button class="btn" onclick="addCalories()">Dodaj</button>
+<p id="totalCalories"></p>
+</div>
+
+</div>
+
+<!-- PROGRESS -->
+<div id="progress" class="hidden">
+<h2>Praćenje Težine</h2>
+<div class="card">
+<input type="number" id="weightInput" placeholder="Unesi težinu">
+<button class="btn" onclick="addWeight()">Spremi</button>
+<canvas id="chart"></canvas>
+</div>
+</div>
+
+<!-- PROFILE -->
+<div id="profile" class="hidden">
+<h2>Profil (nije obavezno)</h2>
+<div class="card">
+<input type="text" id="username" placeholder="Ime">
+<button class="btn" onclick="saveUser()">Spremi profil</button>
+<p id="profileStatus"></p>
+</div>
+</div>
+
+</div>
 
 <script>
-
-function showSection(id){
-document.querySelectorAll("section").forEach(sec=>sec.classList.add("hidden"));
+function show(id){
+document.querySelectorAll(".main > div").forEach(d=>d.classList.add("hidden"));
 document.getElementById(id).classList.remove("hidden");
 }
 
-function calculateCalories(){
-let w=weightCalc.value;
-let h=heightCalc.value;
-let a=ageCalc.value;
-let goal=document.getElementById("goal").value;
-if(w && h && a){
+/* AI PLAN */
+function generatePlan(){
+let g=document.getElementById("goal").value;
+let text="";
+if(g==="masa") text="5 treninga tjedno, 8-12 ponavljanja, kalorijski suficit.";
+if(g==="definicija") text="4 treninga + kardio, kalorijski deficit.";
+if(g==="snaga") text="Teški compound pokreti 3-5 ponavljanja.";
+document.getElementById("planOutput").innerText=text;
+}
+
+/* KALORIJE */
+function calculate(){
+let w=weight.value,h=height.value,a=age.value;
+let goal=calGoal.value;
 let bmr=10*w+6.25*h-5*a+5;
 if(goal==="bulk") bmr+=300;
 if(goal==="cut") bmr-=300;
-calorieResult.innerText="Preporučeni unos: "+Math.round(bmr)+" kcal";
+calResult.innerText="Preporučeni unos: "+Math.round(bmr)+" kcal";
+}
+
+/* PRAĆENJE HRANE */
+let total=0;
+function addCalories(){
+let c=parseInt(foodCalories.value);
+if(c){
+total+=c;
+totalCalories.innerText="Današnji unos: "+total+" kcal";
+foodCalories.value="";
 }
 }
 
-function generatePlan(){
-let goal=document.getElementById("aiGoal").value;
-let text="";
-if(goal==="masa"){
-text="5 treninga tjedno, 8-12 ponavljanja, progresivno opterećenje.";
-}
-if(goal==="definicija"){
-text="4 treninga + kardio 3x tjedno, kalorijski deficit.";
-}
-if(goal==="snaga"){
-text="Compound pokreti 3-5 ponavljanja, duži odmor.";
-}
-document.getElementById("aiPlan").innerText=text;
-}
-
-function saveUser(){
-let name=document.getElementById("name").value;
-if(name){
-localStorage.setItem("fitzonaUser",name);
-document.getElementById("userStatus").innerText="Korisnik spremljen.";
-}
-}
-
+/* TEŽINA + GRAF */
 let weights=JSON.parse(localStorage.getItem("weights"))||[];
-
-function addWeight(){
-let w=document.getElementById("weightInput").value;
-if(w){
-weights.push(w);
-localStorage.setItem("weights",JSON.stringify(weights));
-updateChart();
-}
-}
-
-let ctx=document.getElementById("weightChart").getContext("2d");
+let ctx=document.getElementById("chart").getContext("2d");
 let chart=new Chart(ctx,{
 type:"line",
-data:{labels:[],datasets:[{label:"Težina (kg)",data:[],borderWidth:2,tension:.3}]}
+data:{labels:[],datasets:[{label:"Težina",data:[],borderWidth:2,tension:.3}]}
 });
 
 function updateChart(){
@@ -296,8 +246,26 @@ chart.data.datasets[0].data=weights;
 chart.update();
 }
 
+function addWeight(){
+let w=weightInput.value;
+if(w){
+weights.push(w);
+localStorage.setItem("weights",JSON.stringify(weights));
+updateChart();
+weightInput.value="";
+}
+}
+
 updateChart();
 
+/* PROFIL */
+function saveUser(){
+let name=username.value;
+if(name){
+localStorage.setItem("user",name);
+profileStatus.innerText="Profil spremljen.";
+}
+}
 </script>
 
 </body>
