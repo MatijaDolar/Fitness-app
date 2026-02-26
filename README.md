@@ -1,1 +1,236 @@
 # Fitness-app
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FitZona Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+
+body{background:#0f172a;color:white}
+
+.hidden{display:none}
+
+header{
+position:fixed;
+width:100%;
+background:#0f172a;
+padding:20px 40px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+border-bottom:1px solid #1e293b;
+z-index:1000;
+}
+
+header h1{color:#22c55e}
+
+nav a{
+margin-left:20px;
+color:white;
+text-decoration:none;
+cursor:pointer;
+}
+
+section{padding:120px 40px;min-height:100vh}
+
+.hero{
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+background:linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),
+url('https://images.unsplash.com/photo-1599058917765-a780eda07a3e?auto=format&fit=crop&w=1600&q=80') center/cover;
+}
+
+.hero h2{font-size:50px;margin-bottom:20px}
+
+.btn{
+background:#22c55e;
+padding:12px 25px;
+border:none;
+border-radius:30px;
+cursor:pointer;
+font-weight:600;
+margin-top:15px;
+}
+
+.btn:hover{background:#16a34a}
+
+.card{
+background:#1e293b;
+padding:25px;
+border-radius:15px;
+margin:15px;
+width:280px;
+}
+
+.cards{display:flex;flex-wrap:wrap;justify-content:center}
+
+input{
+padding:10px;
+margin:10px 0;
+width:100%;
+border-radius:8px;
+border:none;
+}
+
+.dashboard{
+display:flex;
+flex-wrap:wrap;
+gap:30px;
+}
+
+.progress-box{
+background:#1e293b;
+padding:20px;
+border-radius:15px;
+width:300px;
+}
+
+footer{
+text-align:center;
+padding:30px;
+background:#0f172a;
+border-top:1px solid #1e293b;
+}
+
+@media(max-width:768px){
+.hero h2{font-size:32px}
+.dashboard{flex-direction:column}
+}
+
+</style>
+</head>
+<body>
+
+<header>
+<h1>FitZona Pro</h1>
+<nav id="navPublic">
+<a onclick="showSection('home')">Početna</a>
+<a onclick="showSection('login')">Prijava</a>
+<a onclick="showSection('register')">Registracija</a>
+</nav>
+<nav id="navPrivate" class="hidden">
+<a onclick="showSection('dashboard')">Dashboard</a>
+<a onclick="logout()">Odjava</a>
+</nav>
+</header>
+
+<!-- POČETNA -->
+<section id="home" class="hero">
+<h2>Postani Najbolja Verzija Sebe</h2>
+<p>Personalizirani planovi, praćenje napretka i moderna fitness aplikacija.</p>
+<button class="btn" onclick="showSection('register')">Započni</button>
+</section>
+
+<!-- REGISTRACIJA -->
+<section id="register" class="hidden">
+<h2>Registracija</h2>
+<input type="text" id="regName" placeholder="Ime">
+<input type="email" id="regEmail" placeholder="Email">
+<input type="password" id="regPass" placeholder="Lozinka">
+<button class="btn" onclick="register()">Registriraj se</button>
+</section>
+
+<!-- PRIJAVA -->
+<section id="login" class="hidden">
+<h2>Prijava</h2>
+<input type="email" id="loginEmail" placeholder="Email">
+<input type="password" id="loginPass" placeholder="Lozinka">
+<button class="btn" onclick="login()">Prijavi se</button>
+</section>
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="hidden">
+<h2>Dobrodošao, <span id="userName"></span></h2>
+
+<div class="dashboard">
+
+<div class="card">
+<h3>Plan Treninga</h3>
+<ul>
+<li>Ponedjeljak – Prsa & Triceps</li>
+<li>Utorak – Leđa & Biceps</li>
+<li>Srijeda – Odmor</li>
+<li>Četvrtak – Noge</li>
+<li>Petak – Ramena & Core</li>
+</ul>
+</div>
+
+<div class="progress-box">
+<h3>Praćenje Težine</h3>
+<input type="number" id="weightInput" placeholder="Unesi težinu (kg)">
+<button class="btn" onclick="addWeight()">Spremi</button>
+<p id="weightHistory"></p>
+</div>
+
+</div>
+</section>
+
+<footer>
+© 2026 FitZona Pro
+</footer>
+
+<script>
+
+let currentUser = null;
+let weights = [];
+
+function showSection(id){
+document.querySelectorAll("section").forEach(sec=>sec.classList.add("hidden"));
+document.getElementById(id).classList.remove("hidden");
+}
+
+function register(){
+let name = document.getElementById("regName").value;
+let email = document.getElementById("regEmail").value;
+let pass = document.getElementById("regPass").value;
+
+if(name && email && pass){
+localStorage.setItem("user", JSON.stringify({name,email,pass}));
+alert("Registracija uspješna!");
+showSection("login");
+}
+}
+
+function login(){
+let email = document.getElementById("loginEmail").value;
+let pass = document.getElementById("loginPass").value;
+let user = JSON.parse(localStorage.getItem("user"));
+
+if(user && email===user.email && pass===user.pass){
+currentUser = user;
+document.getElementById("userName").innerText=user.name;
+document.getElementById("navPublic").classList.add("hidden");
+document.getElementById("navPrivate").classList.remove("hidden");
+showSection("dashboard");
+}else{
+alert("Pogrešni podaci!");
+}
+}
+
+function logout(){
+currentUser=null;
+document.getElementById("navPublic").classList.remove("hidden");
+document.getElementById("navPrivate").classList.add("hidden");
+showSection("home");
+}
+
+function addWeight(){
+let w=document.getElementById("weightInput").value;
+if(w){
+weights.push(w);
+document.getElementById("weightHistory").innerText="Povijest: "+weights.join(" kg, ")+" kg";
+document.getElementById("weightInput").value="";
+}
+}
+
+</script>
+
+</body>
+</html>
