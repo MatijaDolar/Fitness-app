@@ -5,19 +5,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FitZona Pro</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <style>
-
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
-
-body{background:#0f172a;color:white}
-
+body{
+background:linear-gradient(135deg,#0f172a,#111827);
+color:white;
+overflow-x:hidden;
+}
 .hidden{display:none}
 
 header{
 position:fixed;
 width:100%;
-background:#0f172a;
+background:rgba(15,23,42,.8);
+backdrop-filter:blur(15px);
 padding:20px 40px;
 display:flex;
 justify-content:space-between;
@@ -26,16 +30,25 @@ border-bottom:1px solid #1e293b;
 z-index:1000;
 }
 
-header h1{color:#22c55e}
+header h1{
+color:#22c55e;
+font-weight:800;
+}
 
 nav a{
 margin-left:20px;
 color:white;
 text-decoration:none;
 cursor:pointer;
+transition:.3s;
 }
 
-section{padding:120px 40px;min-height:100vh}
+nav a:hover{color:#22c55e}
+
+section{
+padding:120px 40px;
+min-height:100vh;
+}
 
 .hero{
 display:flex;
@@ -44,10 +57,15 @@ justify-content:center;
 align-items:center;
 text-align:center;
 background:linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),
-url('https://images.unsplash.com/photo-1599058917765-a780eda07a3e?auto=format&fit=crop&w=1600&q=80') center/cover;
+url('https://images.unsplash.com/photo-1599058917765-a780eda07a3e?auto=format&fit=crop&w=1600&q=80')
+center/cover;
 }
 
-.hero h2{font-size:50px;margin-bottom:20px}
+.hero h2{
+font-size:50px;
+margin-bottom:20px;
+font-weight:800;
+}
 
 .btn{
 background:#22c55e;
@@ -57,40 +75,44 @@ border-radius:30px;
 cursor:pointer;
 font-weight:600;
 margin-top:15px;
+transition:.3s;
 }
 
-.btn:hover{background:#16a34a}
+.btn:hover{
+background:#16a34a;
+transform:scale(1.05);
+}
+
+.cards{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:25px;
+}
 
 .card{
-background:#1e293b;
+background:rgba(30,41,59,.7);
 padding:25px;
-border-radius:15px;
-margin:15px;
-width:280px;
+border-radius:20px;
+width:300px;
+backdrop-filter:blur(15px);
+transition:.3s;
 }
 
-.cards{display:flex;flex-wrap:wrap;justify-content:center}
+.card:hover{
+transform:translateY(-5px);
+box-shadow:0 0 25px rgba(34,197,94,.3);
+}
 
-input{
+input,select{
 padding:10px;
-margin:10px 0;
+margin:8px 0;
 width:100%;
 border-radius:8px;
 border:none;
 }
 
-.dashboard{
-display:flex;
-flex-wrap:wrap;
-gap:30px;
-}
-
-.progress-box{
-background:#1e293b;
-padding:20px;
-border-radius:15px;
-width:300px;
-}
+canvas{margin-top:30px}
 
 footer{
 text-align:center;
@@ -101,72 +123,104 @@ border-top:1px solid #1e293b;
 
 @media(max-width:768px){
 .hero h2{font-size:32px}
-.dashboard{flex-direction:column}
+.cards{flex-direction:column;align-items:center}
 }
-
 </style>
 </head>
+
 <body>
 
 <header>
 <h1>FitZona Pro</h1>
-<nav id="navPublic">
+<nav>
 <a onclick="showSection('home')">Početna</a>
-<a onclick="showSection('login')">Prijava</a>
-<a onclick="showSection('register')">Registracija</a>
-</nav>
-<nav id="navPrivate" class="hidden">
+<a onclick="showSection('workouts')">Vježbe</a>
+<a onclick="showSection('nutrition')">Prehrana</a>
+<a onclick="showSection('progress')">Napredak</a>
 <a onclick="showSection('dashboard')">Dashboard</a>
-<a onclick="logout()">Odjava</a>
 </nav>
 </header>
 
-<!-- POČETNA -->
+<!-- HOME -->
 <section id="home" class="hero">
 <h2>Postani Najbolja Verzija Sebe</h2>
-<p>Personalizirani planovi, praćenje napretka i moderna fitness aplikacija.</p>
-<button class="btn" onclick="showSection('register')">Započni</button>
+<p>Trening, prehrana, AI plan i praćenje napretka.</p>
+<button class="btn" onclick="showSection('dashboard')">Kreni Sada</button>
 </section>
 
-<!-- REGISTRACIJA -->
-<section id="register" class="hidden">
-<h2>Registracija</h2>
-<input type="text" id="regName" placeholder="Ime">
-<input type="email" id="regEmail" placeholder="Email">
-<input type="password" id="regPass" placeholder="Lozinka">
-<button class="btn" onclick="register()">Registriraj se</button>
+<!-- WORKOUTS -->
+<section id="workouts" class="hidden">
+<h2>Vježbe po Mišićnim Skupinama</h2>
+<div class="cards">
+<div class="card"><h3>Prsa</h3>Bench press<br>Incline DB press<br>Chest fly<br>Sklekovi</div>
+<div class="card"><h3>Leđa</h3>Deadlift<br>Pull-ups<br>Barbell row<br>Lat pulldown</div>
+<div class="card"><h3>Noge</h3>Čučanj<br>Leg press<br>Iskoraci<br>RDL</div>
+<div class="card"><h3>Ramena</h3>Shoulder press<br>Lateral raise<br>Rear delt fly</div>
+<div class="card"><h3>Ruke</h3>Biceps curl<br>Hammer curl<br>Dips<br>Pushdown</div>
+<div class="card"><h3>Core</h3>Plank<br>Leg raises<br>Russian twist<br>Ab wheel</div>
+</div>
 </section>
 
-<!-- PRIJAVA -->
-<section id="login" class="hidden">
-<h2>Prijava</h2>
-<input type="email" id="loginEmail" placeholder="Email">
-<input type="password" id="loginPass" placeholder="Lozinka">
-<button class="btn" onclick="login()">Prijavi se</button>
+<!-- NUTRITION -->
+<section id="nutrition" class="hidden">
+<h2>Prehrana i Kalorije</h2>
+<div class="cards">
+
+<div class="card">
+<h3>BMR Kalkulator</h3>
+<input type="number" id="weightCalc" placeholder="Težina (kg)">
+<input type="number" id="heightCalc" placeholder="Visina (cm)">
+<input type="number" id="ageCalc" placeholder="Godine">
+<select id="goal">
+<option value="maintain">Održavanje</option>
+<option value="bulk">Masa</option>
+<option value="cut">Definicija</option>
+</select>
+<button class="btn" onclick="calculateCalories()">Izračunaj</button>
+<p id="calorieResult"></p>
+</div>
+
+<div class="card">
+<h3>Primjer Plana Prehrane</h3>
+Doručak: Zobene + whey<br>
+Ručak: Piletina + riža<br>
+Večera: Losos + povrće<br>
+Snack: Orašasti plodovi
+</div>
+
+</div>
+</section>
+
+<!-- PROGRESS -->
+<section id="progress" class="hidden">
+<h2>Praćenje Težine</h2>
+<input type="number" id="weightInput" placeholder="Unesi težinu">
+<button class="btn" onclick="addWeight()">Spremi</button>
+<canvas id="weightChart"></canvas>
 </section>
 
 <!-- DASHBOARD -->
 <section id="dashboard" class="hidden">
-<h2>Dobrodošao, <span id="userName"></span></h2>
-
-<div class="dashboard">
+<h2>Dashboard</h2>
+<div class="cards">
 
 <div class="card">
-<h3>Plan Treninga</h3>
-<ul>
-<li>Ponedjeljak – Prsa & Triceps</li>
-<li>Utorak – Leđa & Biceps</li>
-<li>Srijeda – Odmor</li>
-<li>Četvrtak – Noge</li>
-<li>Petak – Ramena & Core</li>
-</ul>
+<h3>AI Plan Treninga</h3>
+<select id="aiGoal">
+<option value="masa">Masa</option>
+<option value="definicija">Definicija</option>
+<option value="snaga">Snaga</option>
+</select>
+<button class="btn" onclick="generatePlan()">Generiraj</button>
+<p id="aiPlan"></p>
 </div>
 
-<div class="progress-box">
-<h3>Praćenje Težine</h3>
-<input type="number" id="weightInput" placeholder="Unesi težinu (kg)">
-<button class="btn" onclick="addWeight()">Spremi</button>
-<p id="weightHistory"></p>
+<div class="card">
+<h3>Korisnik (Opcionalno)</h3>
+<input type="text" id="name" placeholder="Ime">
+<input type="email" id="email" placeholder="Email">
+<button class="btn" onclick="saveUser()">Spremi</button>
+<p id="userStatus"></p>
 </div>
 
 </div>
@@ -178,57 +232,71 @@ border-top:1px solid #1e293b;
 
 <script>
 
-let currentUser = null;
-let weights = [];
-
 function showSection(id){
 document.querySelectorAll("section").forEach(sec=>sec.classList.add("hidden"));
 document.getElementById(id).classList.remove("hidden");
 }
 
-function register(){
-let name = document.getElementById("regName").value;
-let email = document.getElementById("regEmail").value;
-let pass = document.getElementById("regPass").value;
-
-if(name && email && pass){
-localStorage.setItem("user", JSON.stringify({name,email,pass}));
-alert("Registracija uspješna!");
-showSection("login");
+function calculateCalories(){
+let w=weightCalc.value;
+let h=heightCalc.value;
+let a=ageCalc.value;
+let goal=document.getElementById("goal").value;
+if(w && h && a){
+let bmr=10*w+6.25*h-5*a+5;
+if(goal==="bulk") bmr+=300;
+if(goal==="cut") bmr-=300;
+calorieResult.innerText="Preporučeni unos: "+Math.round(bmr)+" kcal";
 }
 }
 
-function login(){
-let email = document.getElementById("loginEmail").value;
-let pass = document.getElementById("loginPass").value;
-let user = JSON.parse(localStorage.getItem("user"));
+function generatePlan(){
+let goal=document.getElementById("aiGoal").value;
+let text="";
+if(goal==="masa"){
+text="5 treninga tjedno, 8-12 ponavljanja, progresivno opterećenje.";
+}
+if(goal==="definicija"){
+text="4 treninga + kardio 3x tjedno, kalorijski deficit.";
+}
+if(goal==="snaga"){
+text="Compound pokreti 3-5 ponavljanja, duži odmor.";
+}
+document.getElementById("aiPlan").innerText=text;
+}
 
-if(user && email===user.email && pass===user.pass){
-currentUser = user;
-document.getElementById("userName").innerText=user.name;
-document.getElementById("navPublic").classList.add("hidden");
-document.getElementById("navPrivate").classList.remove("hidden");
-showSection("dashboard");
-}else{
-alert("Pogrešni podaci!");
+function saveUser(){
+let name=document.getElementById("name").value;
+if(name){
+localStorage.setItem("fitzonaUser",name);
+document.getElementById("userStatus").innerText="Korisnik spremljen.";
 }
 }
 
-function logout(){
-currentUser=null;
-document.getElementById("navPublic").classList.remove("hidden");
-document.getElementById("navPrivate").classList.add("hidden");
-showSection("home");
-}
+let weights=JSON.parse(localStorage.getItem("weights"))||[];
 
 function addWeight(){
 let w=document.getElementById("weightInput").value;
 if(w){
 weights.push(w);
-document.getElementById("weightHistory").innerText="Povijest: "+weights.join(" kg, ")+" kg";
-document.getElementById("weightInput").value="";
+localStorage.setItem("weights",JSON.stringify(weights));
+updateChart();
 }
 }
+
+let ctx=document.getElementById("weightChart").getContext("2d");
+let chart=new Chart(ctx,{
+type:"line",
+data:{labels:[],datasets:[{label:"Težina (kg)",data:[],borderWidth:2,tension:.3}]}
+});
+
+function updateChart(){
+chart.data.labels=weights.map((_,i)=>"Unos "+(i+1));
+chart.data.datasets[0].data=weights;
+chart.update();
+}
+
+updateChart();
 
 </script>
 
